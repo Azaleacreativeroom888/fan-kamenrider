@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — AGITO FAN SITE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:     #C0152A;
+      --red-dim: #7A0D1B;
+      --black:   #0C0C0C;
+      --charcoal:#1A1A1A;
+      --ash:     #2A2A2A;
+      --gold:    #C89A3A;
+      --white:   #F0EDE8;
+      --muted:   #888;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(12,12,12,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--red-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 52px;
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      color: var(--red);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding-top: 52px;
+      padding: 52px clamp(2rem, 8vw, 8rem) 3rem;
+      border-bottom: 1px solid var(--ash);
+    }
+    .page-header-inner {
+      padding-top: 3.5rem;
+    }
+    .page-eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      letter-spacing: 0.06em;
+      line-height: 1;
+      color: var(--white);
+    }
+    .page-desc {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── BLOG LIST ── */
+    .blog-wrapper {
+      padding: 0 clamp(2rem, 8vw, 8rem);
+      max-width: 860px;
+    }
+
+    .blog-entry {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 2rem;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--ash);
+    }
+    .blog-entry:first-child {
+      border-top: none;
+    }
+
+    .entry-date {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding-top: 0.15rem;
+      white-space: nowrap;
+    }
+
+    .entry-text {
+      font-size: 0.9rem;
+      color: var(--white);
+      line-height: 1.8;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--ash);
+      margin-top: 5rem;
+      padding: 2.5rem clamp(2rem, 8vw, 8rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--red-dim);
+    }
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: #444;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .blog-entry {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+      }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">AGITO</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">制作日記</p>
+      <h1 class="page-title">Blog</h1>
+      <p class="page-desc">漫画・イラストの勉強記録。日々のこと。</p>
+    </div>
+  </div>
+
+  <div class="blog-wrapper">
+
+    <div class="blog-entry">
+      <span class="entry-date">2025-06-15</span>
+      <p class="entry-text">アギトのグランドフォームの模写を10枚やった。肩アーマーの立体感がまだつかめない。</p>
+    </div>
+
+    <div class="blog-entry">
+      <span class="entry-date">2025-06-10</span>
+      <p class="entry-text">アクションシーンの構図を勉強中。ライダーキックの踏み切り直前のポーズが一番難しい気がする。</p>
+    </div>
+
+    <div class="blog-entry">
+      <span class="entry-date">2025-06-04</span>
+      <p class="entry-text">背景の描き方を練習。工場地帯のシーンを参考に遠近法の復習をした。</p>
+    </div>
+
+    <div class="blog-entry">
+      <span class="entry-date">2025-05-28</span>
+      <p class="entry-text">ギャラリーに最初のイラストをアップ。グランドフォームを描いてみた。まだ線がふらついてる。</p>
+    </div>
+
+    <div class="blog-entry">
+      <span class="entry-date">2025-05-20</span>
+      <p class="entry-text">変身シーンのコマ割り研究をはじめた。フォームチェンジのエフェクト処理が課題。</p>
+    </div>
+
+    <div class="blog-entry">
+      <span class="entry-date">2025-05-12</span>
+      <p class="entry-text">アギトを題材にしたショート漫画を1ページ描いた。コマの流れが不自然になってしまった。</p>
+    </div>
+
+    <div class="blog-entry">
+      <span class="entry-date">2025-05-05</span>
+      <p class="entry-text">サイト制作開始。デザインの方向性を決めた。赤と黒でいく。</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-logo">AGITO FAN SITE</div>
+    <p>非公式ファンサイト / Unofficial Fan Site — ©︎ Azalea72</p>
+  </footer>
+
+</body>
+</html>
