@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — AGITO FAN SITE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:     #C0152A;
+      --red-dim: #7A0D1B;
+      --black:   #0C0C0C;
+      --charcoal:#1A1A1A;
+      --ash:     #2A2A2A;
+      --gold:    #C89A3A;
+      --white:   #F0EDE8;
+      --muted:   #888;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(12,12,12,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--red-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 52px;
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      color: var(--red);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 52px clamp(2rem, 8vw, 8rem) 3rem;
+      border-bottom: 1px solid var(--ash);
+    }
+    .page-header-inner {
+      padding-top: 3.5rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .page-eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      letter-spacing: 0.06em;
+      line-height: 1;
+      color: var(--white);
+    }
+    .page-desc {
+      margin-top: 0.8rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── TABS ── */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      align-self: flex-end;
+    }
+    .tab-btn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 0.5rem 1.2rem;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn:hover { color: var(--white); }
+    .tab-btn.active {
+      color: var(--white);
+      border-bottom-color: var(--red);
+    }
+
+    /* ── GALLERY GRID ── */
+    .gallery-section {
+      padding: 3rem clamp(2rem, 8vw, 8rem) 5rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 2px;
+      background: var(--ash);
+    }
+
+    /* タブ切り替え */
+    .grid-panel { display: none; }
+    .grid-panel.active { display: contents; }
+
+    .gallery-item {
+      position: relative;
+      background: var(--charcoal);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .gallery-item::before {
+      content: '';
+      display: block;
+      padding-top: 133%; /* 3:4 */
+    }
+    .gallery-item img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease, opacity 0.3s;
+    }
+    .gallery-item:hover img { transform: scale(1.04); }
+
+    /* 画像がないプレースホルダー */
+    .gallery-item.placeholder {
+      cursor: default;
+    }
+    .placeholder-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .placeholder-inner .ph-icon {
+      font-size: 2rem;
+      opacity: 0.12;
+    }
+    .placeholder-inner span {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--ash);
+      text-transform: uppercase;
+    }
+
+    /* オーバーレイ */
+    .item-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(12,12,12,0.85) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+    }
+    .gallery-item:hover .item-overlay { opacity: 1; }
+    .overlay-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .overlay-title {
+      font-size: 0.82rem;
+      color: var(--white);
+      font-weight: 400;
+    }
+    .overlay-date {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      display: block;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 1.2rem;
+      right: 1.5rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: var(--white); }
+    .lightbox-caption {
+      position: fixed;
+      bottom: 1.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--ash);
+      padding: 2.5rem clamp(2rem, 8vw, 8rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--red-dim);
+    }
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: #444;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { flex-direction: column; align-items: flex-start; }
+      .page-header-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">AGITO</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div>
+        <p class="page-eyebrow">作品一覧</p>
+        <h1 class="page-title">Gallery</h1>
+        <p class="page-desc">漫画・イラスト</p>
+      </div>
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="all">All</button>
+        <button class="tab-btn" data-tab="manga">Manga</button>
+        <button class="tab-btn" data-tab="illust">Illust</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-section">
+    <div class="gallery-grid">
+
+      <!-- ALL パネル（常に表示、タブで他を非表示） -->
+      <div class="grid-panel active" id="panel-all">
+
+        <!-- 画像が入ったらこの形式で追加：
+          <div class="gallery-item" onclick="openLightbox(this)" data-src="images/作品ファイル名.jpg" data-title="タイトル" data-date="2025-06-15">
+            <img src="images/作品ファイル名.jpg" alt="タイトル" loading="lazy">
+            <div class="item-overlay">
+              <div class="overlay-meta">
+                <span class="overlay-title">タイトル</span>
+                <span class="overlay-date">2025-06-15</span>
+              </div>
+            </div>
+          </div>
+        -->
+
+        <!-- プレースホルダー（作品が増えたら削除） -->
+        <div class="gallery-item placeholder" data-type="manga">
+          <div class="placeholder-inner">
+            <span class="ph-icon">⬡</span>
+            <span>Manga</span>
+          </div>
+        </div>
+        <div class="gallery-item placeholder" data-type="manga">
+          <div class="placeholder-inner">
+            <span class="ph-icon">⬡</span>
+            <span>Manga</span>
+          </div>
+        </div>
+        <div class="gallery-item placeholder" data-type="illust">
+          <div class="placeholder-inner">
+            <span class="ph-icon">⬡</span>
+            <span>Illust</span>
+          </div>
+        </div>
+        <div class="gallery-item placeholder" data-type="illust">
+          <div class="placeholder-inner">
+            <span class="ph-icon">⬡</span>
+            <span>Illust</span>
+          </div>
+        </div>
+        <div class="gallery-item placeholder" data-type="manga">
+          <div class="placeholder-inner">
+            <span class="ph-icon">⬡</span>
+            <span>Manga</span>
+          </div>
+        </div>
+        <div class="gallery-item placeholder" data-type="illust">
+          <div class="placeholder-inner">
+            <span class="ph-icon">⬡</span>
+            <span>Illust</span>
+          </div>
+        </div>
+
+      </div><!-- /panel-all -->
+
+      <!-- MANGA パネル -->
+      <div class="grid-panel" id="panel-manga">
+        <div class="gallery-item placeholder">
+          <div class="placeholder-inner"><span class="ph-icon">⬡</span><span>Manga</span></div>
+        </div>
+        <div class="gallery-item placeholder">
+          <div class="placeholder-inner"><span class="ph-icon">⬡</span><span>Manga</span></div>
+        </div>
+        <div class="gallery-item placeholder">
+          <div class="placeholder-inner"><span class="ph-icon">⬡</span><span>Manga</span></div>
+        </div>
+      </div>
+
+      <!-- ILLUST パネル -->
+      <div class="grid-panel" id="panel-illust">
+        <div class="gallery-item placeholder">
+          <div class="placeholder-inner"><span class="ph-icon">⬡</span><span>Illust</span></div>
+        </div>
+        <div class="gallery-item placeholder">
+          <div class="placeholder-inner"><span class="ph-icon">⬡</span><span>Illust</span></div>
+        </div>
+        <div class="gallery-item placeholder">
+          <div class="placeholder-inner"><span class="ph-icon">⬡</span><span>Illust</span></div>
+        </div>
+      </div>
+
+    </div><!-- /gallery-grid -->
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">Close ✕</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
+
+  <footer>
+    <div class="footer-logo">AGITO FAN SITE</div>
+    <p>非公式ファンサイト / Unofficial Fan Site — ©︎ Azalea72</p>
+  </footer>
+
+  <script>
+    // ── タブ切り替え ──
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.grid-panel');
+
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ── ライトボックス ──
+    function openLightbox(el) {
+      const src   = el.dataset.src;
+      const title = el.dataset.title || '';
+      const date  = el.dataset.date  || '';
+      if (!src) return;
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-img').alt = title;
+      document.getElementById('lightbox-caption').textContent =
+        [title, date].filter(Boolean).join(' — ');
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (e && e.target !== e.currentTarget && !e.target.classList.contains('lightbox-close')) return;
+      document.getElementById('lightbox').classList.remove('open');
+      document.getElementById('lightbox-img').src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+
+</body>
+</html>
