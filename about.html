@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — AGITO FAN SITE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:     #C0152A;
+      --red-dim: #7A0D1B;
+      --black:   #0C0C0C;
+      --charcoal:#1A1A1A;
+      --ash:     #2A2A2A;
+      --gold:    #C89A3A;
+      --white:   #F0EDE8;
+      --muted:   #888;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(12,12,12,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--red-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 52px;
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      color: var(--red);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 52px clamp(2rem, 8vw, 8rem) 3rem;
+      border-bottom: 1px solid var(--ash);
+    }
+    .page-header-inner { padding-top: 3.5rem; }
+    .page-eyebrow {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      letter-spacing: 0.06em;
+      line-height: 1;
+      color: var(--white);
+    }
+
+    /* ── MAIN ── */
+    .main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 3.5rem clamp(2rem, 8vw, 8rem) 6rem;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--ash);
+    }
+
+    /* ── PROFILE CARD ── */
+    .profile-card {
+      background: var(--charcoal);
+      border: 1px solid var(--ash);
+      border-left: 3px solid var(--red);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-card::before {
+      content: 'G';
+      position: absolute;
+      right: -0.05em;
+      bottom: -0.15em;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 9rem;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(192,21,42,0.1);
+      pointer-events: none;
+      user-select: none;
+    }
+    .profile-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      margin-bottom: 0.2rem;
+    }
+    .profile-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+    .profile-body {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 2;
+      position: relative;
+      z-index: 1;
+    }
+    .profile-body p { margin-bottom: 0.9rem; }
+    .profile-body p:last-child { margin-bottom: 0; }
+
+    /* ── LINK GRID ── */
+    .link-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--ash);
+      margin-bottom: 3rem;
+    }
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--charcoal);
+      padding: 1rem 1.2rem;
+      text-decoration: none;
+      color: var(--white);
+      transition: background 0.2s;
+    }
+    .link-card:hover { background: var(--ash); }
+    .link-icon {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      width: 36px;
+      height: 36px;
+      background: var(--ash);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--red);
+    }
+    .link-text { flex: 1; min-width: 0; }
+    .link-name {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 0.1rem;
+    }
+    .link-desc {
+      display: block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .link-arrow {
+      color: var(--ash);
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .link-card:hover .link-arrow { color: var(--red); transform: translateX(3px); }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--charcoal);
+      border: 1px solid var(--ash);
+      padding: 2rem;
+    }
+    .form-intro {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+    .form-group { margin-bottom: 1.1rem; }
+    .form-label {
+      display: block;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+    .required { color: var(--red); margin-left: 3px; }
+    .form-input, .form-textarea {
+      width: 100%;
+      background: var(--black);
+      border: 1px solid var(--ash);
+      color: var(--white);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 300;
+      padding: 0.6rem 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--ash); }
+    .form-input:focus, .form-textarea:focus { border-color: var(--red); }
+    .form-textarea { resize: vertical; min-height: 130px; }
+
+    .form-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--red);
+      border: none;
+      color: var(--white);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.6rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    .form-submit:hover { background: var(--red-dim); }
+    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .form-success {
+      background: rgba(192,21,42,0.08);
+      border: 1px solid var(--red-dim);
+      padding: 0.9rem 1.2rem;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      margin-bottom: 1.2rem;
+      display: none;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--ash);
+      padding: 2.5rem clamp(2rem, 8vw, 8rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--red-dim);
+    }
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: #444;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .link-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .nav-links { gap: 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">AGITO</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-eyebrow">サイトについて</p>
+      <h1 class="page-title">About</h1>
+    </div>
+  </div>
+
+  <main class="main">
+
+    <!-- 紹介文 -->
+    <div class="section-label">Profile</div>
+    <div class="profile-card">
+      <div class="profile-name">Azalea72</div>
+      <div class="profile-tag">Heisei Kamen Rider Fan</div>
+      <div class="profile-body">
+        <p>平成初期の仮面ライダーが好きです。クウガ・アギト・龍騎・555……あの頃のライダーには、ヒーローものとしての爽快感だけでなく、人間の弱さや孤独、社会への問いかけがあった気がしています。</p>
+        <p>なかでもアギトは特別な作品です。記憶を失った青年・津上翔一が、自分の中に宿る力の意味を問い続ける姿に、何度見ても惹かれます。アギトという存在が「人類の可能性」であるという設定も好きで、見るたびに違うことを考えさせられます。</p>
+        <p>このサイトは、そのアギト愛を出発点にした非公式ファンサイトです。漫画・イラストの制作記録と、勉強の進捗日記を置いています。</p>
+      </div>
+    </div>
+
+    <!-- リンク -->
+    <div class="section-label">Links</div>
+    <div class="link-grid">
+
+      <a class="link-card" href="blog.html">
+        <div class="link-icon">✎</div>
+        <div class="link-text">
+          <span class="link-name">Blog</span>
+          <span class="link-desc">制作・勉強の記録</span>
+        </div>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <a class="link-card" href="gallery.html">
+        <div class="link-icon">⬡</div>
+        <div class="link-text">
+          <span class="link-name">Gallery</span>
+          <span class="link-desc">漫画・イラスト</span>
+        </div>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <a class="link-card" href="https://www.pixiv.net/" target="_blank" rel="noopener">
+        <div class="link-icon">P</div>
+        <div class="link-text">
+          <span class="link-name">Pixiv</span>
+          <span class="link-desc">イラスト投稿</span>
+        </div>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <a class="link-card" href="https://azaleacreativeroom888.github.io/" target="_blank" rel="noopener">
+        <div class="link-icon">🎨</div>
+        <div class="link-text">
+          <span class="link-name">メインサイト</span>
+          <span class="link-desc">他のサイト一覧</span>
+        </div>
+        <span class="link-arrow">›</span>
+      </a>
+
+    </div>
+
+    <!-- お問い合わせ -->
+    <div class="section-label">Contact</div>
+    <div class="form-card">
+      <p class="form-intro">ご感想・ご質問などあればお気軽にどうぞ。</p>
+
+      <div class="form-success" id="form-success">
+        ✉ メッセージを送信しました。ありがとうございます！
+      </div>
+
+      <form id="contact-form" action="https://formspree.io/f/maqvpvoz" method="POST">
+        <div class="form-group">
+          <label class="form-label" for="name">お名前</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="名前">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">メールアドレス<span class="required">*</span></label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="example@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="message">メッセージ<span class="required">*</span></label>
+          <textarea class="form-textarea" id="message" name="message" placeholder="メッセージを入力してください…" required></textarea>
+        </div>
+        <button class="form-submit" type="submit" id="submit-btn">Send →</button>
+      </form>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo">AGITO FAN SITE</div>
+    <p>非公式ファンサイト / Unofficial Fan Site — ©︎ Azalea72</p>
+  </footer>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = '送信中…';
+      try {
+        const res = await fetch(this.action, {
+          method: 'POST',
+          body: new FormData(this),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          document.getElementById('form-success').style.display = 'block';
+          this.reset();
+        }
+      } catch(err) {}
+      btn.disabled = false;
+      btn.textContent = 'Send →';
+    });
+  </script>
+
+</body>
+</html>
