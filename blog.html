@@ -3,26 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog — AGITO FAN SITE</title>
+  <title>Blog — 平成仮面ライダーファンサイト</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Noto+Sans+JP:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
-      --red:     #C0152A;
-      --red-dim: #7A0D1B;
-      --black:   #0C0C0C;
-      --charcoal:#1A1A1A;
-      --ash:     #2A2A2A;
-      --gold:    #C89A3A;
-      --white:   #F0EDE8;
-      --muted:   #888;
+      --bg:      #0D0E1A;
+      --surface: #141528;
+      --border:  #22243a;
+      --white:   #F2F0FF;
+      --muted:   #7a7c9a;
+      --kuuga:   #B22222;
+      --agito:   #C0152A;
+      --ryuki:   #990000;
+      --faiz:    #C0A000;
+      --blade:   #1a6bbf;
+      --hibiki:  #d45f00;
+      --kabuto:  #b8a000;
+      --den-o:   #7B2FBE;
+      --kiva:    #8B0000;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      background: var(--black);
+      background: var(--bg);
       color: var(--white);
       font-family: 'Noto Sans JP', sans-serif;
       font-weight: 300;
@@ -30,79 +34,100 @@
       min-height: 100vh;
     }
 
-    /* ── NAV ── */
+    .rider-bar {
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--kuuga), var(--agito), var(--ryuki),
+        var(--faiz), var(--blade), var(--hibiki),
+        var(--kabuto), var(--den-o), var(--kiva), var(--kuuga)
+      );
+      background-size: 200% 100%;
+      animation: barSlide 4s linear infinite;
+    }
+    @keyframes barSlide {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: -200% 0%; }
+    }
+
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(12,12,12,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--red-dim);
+      position: sticky;
+      top: 0; z-index: 100;
+      background: rgba(13,14,26,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 2rem;
-      height: 52px;
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+      height: 56px;
     }
     .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.15em;
-      color: var(--red);
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
       text-decoration: none;
-    }
-    .nav-links {
       display: flex;
-      gap: 2rem;
-      list-style: none;
+      align-items: center;
+      gap: 0.6rem;
     }
+    .nav-logo-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      animation: dotCycle 9s steps(1) infinite;
+      flex-shrink: 0;
+    }
+    @keyframes dotCycle {
+      0%  { background: var(--kuuga);  }
+      11% { background: var(--agito);  }
+      22% { background: var(--ryuki);  }
+      33% { background: var(--faiz);   }
+      44% { background: var(--blade);  }
+      55% { background: var(--hibiki); }
+      66% { background: var(--kabuto); }
+      77% { background: var(--den-o);  }
+      88% { background: var(--kiva);   }
+    }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
     .nav-links a {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       letter-spacing: 0.12em;
       color: var(--muted);
       text-decoration: none;
       text-transform: uppercase;
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--white); }
-    .nav-links a.active { color: var(--white); }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
 
-    /* ── PAGE HEADER ── */
     .page-header {
-      padding-top: 52px;
-      padding: 52px clamp(2rem, 8vw, 8rem) 3rem;
-      border-bottom: 1px solid var(--ash);
-    }
-    .page-header-inner {
-      padding-top: 3.5rem;
+      padding: 3.5rem clamp(1.5rem, 8vw, 6rem) 2.5rem;
+      border-bottom: 1px solid var(--border);
     }
     .page-eyebrow {
       font-family: 'Share Tech Mono', monospace;
       font-size: 0.68rem;
       letter-spacing: 0.28em;
-      color: var(--red);
+      color: var(--agito);
       text-transform: uppercase;
       margin-bottom: 0.8rem;
     }
     .page-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.8rem, 6vw, 5rem);
-      letter-spacing: 0.06em;
+      font-family: 'Zen Dots', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: 0.04em;
       line-height: 1;
       color: var(--white);
     }
     .page-desc {
-      margin-top: 1rem;
+      margin-top: 0.9rem;
       font-size: 0.82rem;
       color: var(--muted);
-      letter-spacing: 0.04em;
     }
 
-    /* ── BLOG LIST ── */
     .blog-wrapper {
-      padding: 0 clamp(2rem, 8vw, 8rem);
-      max-width: 860px;
+      max-width: 780px;
+      padding: 3rem clamp(1.5rem, 8vw, 6rem) 6rem;
     }
 
     .blog-entry {
@@ -110,69 +135,51 @@
       grid-template-columns: 160px 1fr;
       gap: 2rem;
       padding: 1.4rem 0;
-      border-bottom: 1px solid var(--ash);
+      border-bottom: 1px solid var(--border);
     }
-    .blog-entry:first-child {
-      border-top: none;
-    }
-
     .entry-date {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       letter-spacing: 0.1em;
       color: var(--muted);
       padding-top: 0.15rem;
-      white-space: nowrap;
     }
-
     .entry-text {
       font-size: 0.9rem;
       color: var(--white);
-      line-height: 1.8;
+      line-height: 1.85;
     }
 
-    /* ── FOOTER ── */
     footer {
-      border-top: 1px solid var(--ash);
-      margin-top: 5rem;
-      padding: 2.5rem clamp(2rem, 8vw, 8rem);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem clamp(1.5rem, 8vw, 6rem);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
     }
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      letter-spacing: 0.15em;
-      color: var(--red-dim);
-    }
-    footer p {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      color: #444;
-    }
+    .footer-logo { font-family: 'Zen Dots', sans-serif; font-size: 0.95rem; color: var(--muted); }
+    footer p { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: #333; }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
-      .blog-entry {
-        grid-template-columns: 1fr;
-        gap: 0.3rem;
-      }
+      .blog-entry { grid-template-columns: 1fr; gap: 0.3rem; }
       footer { flex-direction: column; align-items: flex-start; }
     }
-
     @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
 
+  <div class="rider-bar"></div>
+
   <nav>
-    <a class="nav-logo" href="index.html">AGITO</a>
+    <a class="nav-logo" href="index.html">
+      <span class="nav-logo-dot"></span>
+      HEISEI RIDER FAN
+    </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="blog.html" class="active">Blog</a></li>
@@ -182,93 +189,46 @@
   </nav>
 
   <div class="page-header">
-    <div class="page-header-inner">
-      <p class="page-eyebrow">制作日記</p>
-      <h1 class="page-title">Blog</h1>
-      <p class="page-desc">漫画・イラストの勉強記録。日々のこと。</p>
-    </div>
+    <p class="page-eyebrow">制作日記</p>
+    <h1 class="page-title">Blog</h1>
+    <p class="page-desc">漫画・イラストの勉強記録。日々のこと。</p>
   </div>
 
   <div class="blog-wrapper">
 
     <div class="blog-entry">
-      <span class="entry-date">2026-07-10</span>
-      <p class="entry-text">555が面白いのは初代仮面ライダーみたいに
-      主人公がダークヒーローってところだよな。
-      やっぱ、仮面ライダーはダークヒーローなのが一番世界観に合ってる。</p>
+      <span class="entry-date">2025-06-15</span>
+      <p class="entry-text">アギトのグランドフォームの模写を10枚やった。肩アーマーの立体感がまだつかめない。</p>
     </div>
-
     <div class="blog-entry">
-      <span class="entry-date">2026-06-28</span>
-      <p class="entry-text">ブレイドは途中までの演技は竹財輝之助しか上手い人いなくて、
-      他の俳優は………心配になるくらい演技下手だった。
-      でも後半になると見違えるくらい演技が良くなっていって、
-      ストーリーもだんだん面白くなるし、
-      最初前半で面白くないって決めつけちゃいけないなって思う。
-      ブレイドも面白いよ。</p>
-    </div>
-
-    <div class="blog-entry">
-      <span class="entry-date">2026-06-25</span>
-      <p class="entry-text">平成初期仮面ライダーは仮面ライダー龍騎の松本梨香になってから、
-      オープニングがカッコよくなったんだよね。
-      クウガとアギトはまだ昭和っぽさがあったんだけど。
-      でも、昭和の仮面ライダーも好きだから、それはそれでよかったんだけどね。</p>
-    </div>
-
-    <div class="blog-entry">
-      <span class="entry-date">2026-06-24</span>
-      <p class="entry-text">仮面ライダー555はそれぞれのキャラが濃くて良い。
-      海堂とか（笑）木場も一見影薄そうに見えて意外と面白いんだよね。
-      木場はあの顔だし、運動神経もいいから人気高いよね。</p>
-    </div>
-
-    <div class="blog-entry">
-      <span class="entry-date">2026-06-17</span>
-      <p class="entry-text">仮面ライダー龍騎の主人公役の須賀貴匡って演技も上手いし、運動神経もいいし、顔も良いし、
-        本当にパーフェクトな俳優なんだよね。
-        この人が有名になれない日本の芸能界はなんかおかしい。</p>
-    </div>
-
-    <div class="blog-entry">
-      <span class="entry-date">2026-06-15</span>
-      <p class="entry-text">仮面ライダーはクウガ、アギト、龍騎、555、剣を今回アマプラで公開されたときに観た。一番好きなのは555だな～～。</p>
-    </div>
-
-    <div class="blog-entry">
-      <span class="entry-date">2026-06-10</span>
+      <span class="entry-date">2025-06-10</span>
       <p class="entry-text">アクションシーンの構図を勉強中。ライダーキックの踏み切り直前のポーズが一番難しい気がする。</p>
     </div>
-
     <div class="blog-entry">
-      <span class="entry-date">2026-06-04</span>
+      <span class="entry-date">2025-06-04</span>
       <p class="entry-text">背景の描き方を練習。工場地帯のシーンを参考に遠近法の復習をした。</p>
     </div>
-
     <div class="blog-entry">
       <span class="entry-date">2025-05-28</span>
       <p class="entry-text">ギャラリーに最初のイラストをアップ。グランドフォームを描いてみた。まだ線がふらついてる。</p>
     </div>
-
     <div class="blog-entry">
       <span class="entry-date">2025-05-20</span>
       <p class="entry-text">変身シーンのコマ割り研究をはじめた。フォームチェンジのエフェクト処理が課題。</p>
     </div>
-
     <div class="blog-entry">
       <span class="entry-date">2025-05-12</span>
       <p class="entry-text">アギトを題材にしたショート漫画を1ページ描いた。コマの流れが不自然になってしまった。</p>
     </div>
-
     <div class="blog-entry">
       <span class="entry-date">2025-05-05</span>
-      <p class="entry-text">サイト制作開始。デザインの方向性を決めた。赤と黒でいく。</p>
+      <p class="entry-text">サイト制作開始。デザインの方向性を決めた。平成ライダー全員で行く。</p>
     </div>
 
   </div>
 
   <footer>
-    <div class="footer-logo">AGITO FAN SITE</div>
+    <div class="footer-logo">HEISEI RIDER FAN</div>
     <p>非公式ファンサイト / Unofficial Fan Site — ©︎ Azalea72</p>
   </footer>
 
