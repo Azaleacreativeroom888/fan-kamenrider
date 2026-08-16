@@ -3,370 +3,419 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGITO FAN SITE — 仮面ライダーアギト非公式ファンサイト</title>
+  <title>平成仮面ライダー非公式ファンサイト</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Noto+Sans+JP:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
-      --red:     #C0152A;
-      --red-dim: #7A0D1B;
-      --black:   #0C0C0C;
-      --charcoal:#1A1A1A;
-      --ash:     #2A2A2A;
-      --gold:    #C89A3A;
-      --white:   #F0EDE8;
-      --muted:   #888;
+      --bg:      #0D0E1A;
+      --surface: #141528;
+      --border:  #22243a;
+      --white:   #F2F0FF;
+      --muted:   #7a7c9a;
+
+      --kuuga:   #B22222;
+      --agito:   #C0152A;
+      --ryuki:   #990000;
+      --faiz:    #C0A000;
+      --blade:   #1a6bbf;
+      --hibiki:  #d45f00;
+      --kabuto:  #b8a000;
+      --den-o:   #7B2FBE;
+      --kiva:    #8B0000;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      background: var(--black);
+      background: var(--bg);
       color: var(--white);
       font-family: 'Noto Sans JP', sans-serif;
       font-weight: 300;
       line-height: 1.7;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* ── NAV ── */
+    /* RIDER COLOR BAR */
+    .rider-bar {
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--kuuga), var(--agito), var(--ryuki),
+        var(--faiz), var(--blade), var(--hibiki),
+        var(--kabuto), var(--den-o), var(--kiva), var(--kuuga)
+      );
+      background-size: 200% 100%;
+      animation: barSlide 4s linear infinite;
+    }
+    @keyframes barSlide {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: -200% 0%; }
+    }
+
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(12,12,12,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--red-dim);
+      position: sticky;
+      top: 0; z-index: 100;
+      background: rgba(13,14,26,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 2rem;
-      height: 52px;
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+      height: 56px;
     }
     .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.15em;
-      color: var(--red);
-    }
-    .nav-links {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      text-decoration: none;
       display: flex;
-      gap: 2rem;
-      list-style: none;
+      align-items: center;
+      gap: 0.6rem;
     }
+    .nav-logo-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--kuuga);
+      animation: dotCycle 9s steps(1) infinite;
+      flex-shrink: 0;
+    }
+    @keyframes dotCycle {
+      0%  { background: var(--kuuga);  }
+      11% { background: var(--agito);  }
+      22% { background: var(--ryuki);  }
+      33% { background: var(--faiz);   }
+      44% { background: var(--blade);  }
+      55% { background: var(--hibiki); }
+      66% { background: var(--kabuto); }
+      77% { background: var(--den-o);  }
+      88% { background: var(--kiva);   }
+    }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
     .nav-links a {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       letter-spacing: 0.12em;
       color: var(--muted);
       text-decoration: none;
       text-transform: uppercase;
       transition: color 0.2s;
     }
-    .nav-links a:hover,
-    .nav-links a.active { color: var(--white); }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
 
-    /* ── HERO ── */
+    /* HERO */
     .hero {
-      padding-top: 52px;
-      min-height: 100vh;
+      min-height: 90vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: flex-start;
-      padding-left: clamp(2rem, 8vw, 8rem);
-      padding-right: 2rem;
+      padding: 4rem clamp(1.5rem, 8vw, 6rem);
       position: relative;
       overflow: hidden;
     }
-
-    /* 背景：縦ストライプで装甲っぽいテクスチャ */
-    .hero::before {
+    .hero-bg {
+      position: absolute; inset: 0;
+      pointer-events: none;
+    }
+    .hero-bg::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        90deg,
-        transparent 0px,
-        transparent 60px,
-        rgba(192,21,42,0.04) 60px,
-        rgba(192,21,42,0.04) 61px
+      top: 50%; left: 60%;
+      width: 120vmax; height: 120vmax;
+      transform: translate(-50%, -50%);
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg, rgba(192,21,42,0.04) 20deg, transparent 40deg,
+        rgba(27,107,191,0.04) 70deg, transparent 90deg,
+        rgba(196,176,0,0.04) 130deg, transparent 150deg,
+        rgba(123,47,190,0.05) 200deg, transparent 220deg,
+        rgba(212,95,0,0.04) 270deg, transparent 290deg
       );
-      pointer-events: none;
+      animation: bgRotate 30s linear infinite;
+    }
+    @keyframes bgRotate { to { transform: translate(-50%,-50%) rotate(360deg); } }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 65%;
+      width: 500px; height: 500px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(192,21,42,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glowPulse 4s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%,100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
+      50%      { opacity: 1;   transform: translate(-50%,-50%) scale(1.15); }
     }
 
-    /* 右側に大きな「G」のシルエット */
-    .hero::after {
-      content: 'G';
-      position: absolute;
-      right: -0.05em;
-      top: 50%;
-      transform: translateY(-50%);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(20rem, 35vw, 40rem);
-      line-height: 1;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(192,21,42,0.15);
-      pointer-events: none;
-      user-select: none;
-    }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
 
     .hero-eyebrow {
       font-family: 'Share Tech Mono', monospace;
       font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      color: var(--red);
+      letter-spacing: 0.3em;
+      color: var(--muted);
       text-transform: uppercase;
       margin-bottom: 1.2rem;
-    }
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(4rem, 12vw, 10rem);
-      line-height: 0.9;
-      letter-spacing: 0.05em;
-      color: var(--white);
-      position: relative;
-      z-index: 1;
-    }
-    .hero-title span {
-      display: block;
-      color: var(--red);
-    }
-    .hero-sub {
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      max-width: 36ch;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-divider {
-      width: 80px;
-      height: 2px;
-      background: var(--red);
-      margin: 2rem 0;
-      position: relative;
-      z-index: 1;
-    }
-    .hero-nav-links {
       display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
+      align-items: center;
+      gap: 0.8rem;
     }
-    .hero-nav-links a {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+    .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--muted); }
+
+    .hero-title {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.3rem;
+    }
+    .hero-title .line1 { color: var(--white); display: block; }
+    .hero-title .line2 {
+      display: block;
+      background: linear-gradient(90deg, var(--kuuga), var(--agito), var(--faiz), var(--blade), var(--den-o), var(--kiva));
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleGrad 5s linear infinite;
+    }
+    @keyframes titleGrad {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: -300% 0%; }
+    }
+    .hero-title .line3 { color: var(--white); display: block; }
+
+    .hero-sub {
+      margin-top: 1.8rem;
+      font-size: 0.92rem;
       color: var(--muted);
+      max-width: 40ch;
+      line-height: 1.9;
+    }
+    .hero-cta-group {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
       text-decoration: none;
-      border-bottom: 1px solid var(--ash);
-      padding-bottom: 2px;
-      transition: color 0.2s, border-color 0.2s;
+      padding: 0.7rem 1.6rem;
+      border: 1px solid;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
     }
-    .hero-nav-links a:hover {
-      color: var(--red);
-      border-color: var(--red);
-    }
+    .btn-primary { background: var(--kuuga); border-color: var(--kuuga); color: var(--white); }
+    .btn-primary:hover { background: transparent; color: var(--kuuga); }
+    .btn-ghost { background: transparent; border-color: var(--border); color: var(--muted); }
+    .btn-ghost:hover { border-color: var(--white); color: var(--white); }
 
-    /* ── SECTIONS ── */
-    section {
-      padding: 5rem clamp(2rem, 8vw, 8rem);
-      border-top: 1px solid var(--ash);
+    /* RIDER LINEUP */
+    .lineup {
+      padding: 4rem clamp(1.5rem, 8vw, 6rem);
+      border-top: 1px solid var(--border);
     }
-
     .section-label {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       letter-spacing: 0.3em;
-      color: var(--red);
       text-transform: uppercase;
-      margin-bottom: 2.5rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
       display: flex;
       align-items: center;
       gap: 1rem;
     }
     .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--ash);
-      max-width: 200px;
+      content: ''; flex: 1; height: 1px;
+      background: var(--border); max-width: 160px;
     }
-
-    /* ABOUT */
-    .about-grid {
+    .rider-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 2px;
+      background: var(--border);
     }
-    .about-text h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: 0.06em;
-      color: var(--white);
-      margin-bottom: 1.2rem;
-      line-height: 1.1;
-    }
-    .about-text p {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-    }
-    .about-text p strong {
-      color: var(--white);
-      font-weight: 400;
-    }
-
-    /* SPEC TABLE */
-    .spec-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .spec-table tr {
-      border-bottom: 1px solid var(--ash);
-    }
-    .spec-table td {
-      padding: 0.75rem 0;
-      font-size: 0.82rem;
-    }
-    .spec-table td:first-child {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      color: var(--red);
-      width: 40%;
-      text-transform: uppercase;
-    }
-    .spec-table td:last-child {
-      color: var(--white);
-    }
-
-    /* FORMS (NEWS / BLOG PREVIEW) */
-    .news-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .news-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 1.5rem;
-      align-items: baseline;
-      padding: 1.1rem 0;
-      border-bottom: 1px solid var(--ash);
-    }
-    .news-date {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-    }
-    .news-body {
-      font-size: 0.88rem;
-      color: var(--white);
-    }
-    .news-body a {
-      color: inherit;
-      text-decoration: none;
-      border-bottom: 1px solid var(--ash);
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .news-body a:hover { color: var(--red); border-color: var(--red); }
-
-    /* GALLERY PREVIEW */
-    .gallery-preview {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1px;
-      background: var(--ash);
-    }
-    .gallery-card {
-      aspect-ratio: 3/4;
-      background: var(--charcoal);
+    .rider-card {
+      background: var(--surface);
+      padding: 1.4rem 1rem 1.2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      text-decoration: none;
+      gap: 0.6rem;
       transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
     }
-    .gallery-card:hover { background: var(--ash); }
-    .gallery-card .card-icon {
-      font-size: 2rem;
-      opacity: 0.25;
+    .rider-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--c);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
     }
-    .gallery-card span {
+    .rider-card:hover::before { transform: scaleX(1); }
+    .rider-card:hover { background: #1a1c30; }
+    .rider-num {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+    .rider-name-ja { font-size: 0.95rem; font-weight: 700; color: var(--white); }
+    .rider-name-en {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--c);
+      text-transform: uppercase;
+    }
+    .rider-year {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--muted);
+    }
+
+    /* ABOUT + LINKS */
+    .about-section {
+      padding: 4rem clamp(1.5rem, 8vw, 6rem);
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-heading {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      line-height: 1.35;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+    }
+    .about-heading em { font-style: normal; color: var(--den-o); }
+    .about-body { font-size: 0.88rem; color: var(--muted); line-height: 2; }
+    .about-body p + p { margin-top: 0.8rem; }
+
+    .site-links { display: flex; flex-direction: column; gap: 2px; background: var(--border); }
+    .site-link-row {
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 1.4rem;
+      text-decoration: none;
+      color: var(--white);
+      transition: background 0.2s, padding-left 0.2s;
+    }
+    .site-link-row:hover { background: #1a1c30; padding-left: 1.8rem; }
+    .site-link-left { display: flex; align-items: center; gap: 1rem; }
+    .site-link-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid var(--c2);
+      color: var(--c2);
+    }
+    .site-link-name { font-size: 0.9rem; }
+    .site-link-desc {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    .site-link-arrow { color: var(--muted); font-size: 1.1rem; }
+
+    /* BLOG PREVIEW */
+    .blog-preview {
+      padding: 4rem clamp(1.5rem, 8vw, 6rem);
+      border-top: 1px solid var(--border);
+    }
+    .blog-item {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .blog-date {
       font-family: 'Share Tech Mono', monospace;
       font-size: 0.65rem;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.1em;
       color: var(--muted);
-      text-transform: uppercase;
     }
-    .gallery-more {
+    .blog-text { font-size: 0.88rem; color: var(--white); }
+    .more-link {
       display: block;
-      text-align: right;
-      margin-top: 1rem;
+      margin-top: 1.2rem;
       font-family: 'Share Tech Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
       color: var(--muted);
       text-decoration: none;
       text-transform: uppercase;
+      text-align: right;
       transition: color 0.2s;
     }
-    .gallery-more:hover { color: var(--red); }
+    .more-link:hover { color: var(--white); }
 
     /* FOOTER */
     footer {
-      border-top: 1px solid var(--ash);
-      padding: 2.5rem clamp(2rem, 8vw, 8rem);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem clamp(1.5rem, 8vw, 6rem);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 1rem;
     }
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      letter-spacing: 0.15em;
-      color: var(--red-dim);
-    }
+    .footer-logo { font-family: 'Zen Dots', sans-serif; font-size: 0.95rem; color: var(--muted); }
     footer p {
       font-family: 'Share Tech Mono', monospace;
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       letter-spacing: 0.1em;
-      color: var(--ash);
-      color: #444;
+      color: #333;
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 700px) {
-      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .hero::after { font-size: 55vw; opacity: 0.6; }
-      .news-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    @media (max-width: 720px) {
+      .about-section { grid-template-columns: 1fr; gap: 2.5rem; }
+      .blog-item { grid-template-columns: 1fr; gap: 0.3rem; }
       footer { flex-direction: column; align-items: flex-start; }
-      nav { padding: 0 1rem; }
       .nav-links { gap: 1.2rem; }
     }
-
+    @media (max-width: 480px) {
+      .rider-grid { grid-template-columns: repeat(3, 1fr); }
+    }
     @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; animation: none !important; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
+  <div class="rider-bar"></div>
+
   <nav>
-    <div class="nav-logo">AGITO</div>
+    <a class="nav-logo" href="index.html">
+      <span class="nav-logo-dot"></span>
+      HEISEI RIDER FAN
+    </a>
     <ul class="nav-links">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="blog.html">Blog</a></li>
@@ -375,99 +424,155 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
-    <p class="hero-eyebrow">Kamen Rider — （クウガ～剣）</p>
-    <h1 class="hero-title">
-      仮面<br>
-      <span>ライダー</span>
-    </h1>
-    <p class="hero-sub">
-      平成初期の仮面ライダー（最近クウガ～剣まで視聴）のファンサイト
-    </p>
-    <div class="hero-divider"></div>
-    <div class="hero-nav-links">
-      <a href="blog.html">制作ブログ</a>
-      <a href="gallery.html">ギャラリー</a>
-      <a href="about.html">サイトについて</a>
-    </div>
-  </section>
-
-  <!-- ABOUT SECTION -->
-  <section>
-    <p class="section-label">About</p>
-    <div class="about-grid">
-      <div class="about-text">
-        <h2>翔一と、アギトと。</h2>
-        <p>
-          『仮面ライダーアギト』は2001年〜2002年に放送された平成仮面ライダーシリーズ第2作。
-          記憶を失った青年・津上翔一が、謎の力「アギト」として覚醒していく物語です。
-        </p>
-        <p>
-          <strong>このサイトは仮面ライダーの愛を詰め込んだ非公式ファンサイトです。</strong>
-          漫画・イラストの制作記録や、勉強の進捗日記を置いています。
-        </p>
-      </div>
-      <div>
-        <table class="spec-table">
-          <tr><td>放映期間</td><td>2001年1月 〜 2002年1月</td></tr>
-          <tr><td>全話数</td><td>51話</td></tr>
-          <tr><td>主役ライダー</td><td>仮面ライダーアギト</td></tr>
-          <tr><td>主人公</td><td>津上 翔一</td></tr>
-          <tr><td>テーマ</td><td>人間の可能性と進化</td></tr>
-          <tr><td>シリーズ</td><td>平成仮面ライダー第2作</td></tr>
-        </table>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Unofficial Fan Site — 2025</p>
+      <h1 class="hero-title">
+        <span class="line1">平成</span>
+        <span class="line2">仮面ライダー</span>
+        <span class="line3">ファンサイト</span>
+      </h1>
+      <p class="hero-sub">クウガからキバまで。平成初期ライダーへの愛を詰め込んだ、漫画描きによる非公式ファンサイトです。</p>
+      <div class="hero-cta-group">
+        <a class="btn btn-primary" href="gallery.html">ギャラリーを見る</a>
+        <a class="btn btn-ghost" href="blog.html">制作日記</a>
       </div>
     </div>
   </section>
 
-  <!-- BLOG PREVIEW -->
-  <section>
+  <section class="lineup">
+    <p class="section-label">Heisei Phase I</p>
+    <div class="rider-grid">
+      <div class="rider-card" style="--c: var(--kuuga)">
+        <span class="rider-num">No.01</span>
+        <span class="rider-name-ja">クウガ</span>
+        <span class="rider-name-en">Kuuga</span>
+        <span class="rider-year">2000</span>
+      </div>
+      <div class="rider-card" style="--c: var(--agito)">
+        <span class="rider-num">No.02</span>
+        <span class="rider-name-ja">アギト</span>
+        <span class="rider-name-en">Agito</span>
+        <span class="rider-year">2001</span>
+      </div>
+      <div class="rider-card" style="--c: var(--ryuki)">
+        <span class="rider-num">No.03</span>
+        <span class="rider-name-ja">龍騎</span>
+        <span class="rider-name-en">Ryuki</span>
+        <span class="rider-year">2002</span>
+      </div>
+      <div class="rider-card" style="--c: var(--faiz)">
+        <span class="rider-num">No.04</span>
+        <span class="rider-name-ja">555</span>
+        <span class="rider-name-en">Faiz</span>
+        <span class="rider-year">2003</span>
+      </div>
+      <div class="rider-card" style="--c: var(--blade)">
+        <span class="rider-num">No.05</span>
+        <span class="rider-name-ja">ブレイド</span>
+        <span class="rider-name-en">Blade</span>
+        <span class="rider-year">2004</span>
+      </div>
+      <div class="rider-card" style="--c: var(--hibiki)">
+        <span class="rider-num">No.06</span>
+        <span class="rider-name-ja">響鬼</span>
+        <span class="rider-name-en">Hibiki</span>
+        <span class="rider-year">2005</span>
+      </div>
+      <div class="rider-card" style="--c: var(--kabuto)">
+        <span class="rider-num">No.07</span>
+        <span class="rider-name-ja">カブト</span>
+        <span class="rider-name-en">Kabuto</span>
+        <span class="rider-year">2006</span>
+      </div>
+      <div class="rider-card" style="--c: var(--den-o)">
+        <span class="rider-num">No.08</span>
+        <span class="rider-name-ja">電王</span>
+        <span class="rider-name-en">Den-O</span>
+        <span class="rider-year">2007</span>
+      </div>
+      <div class="rider-card" style="--c: var(--kiva)">
+        <span class="rider-num">No.09</span>
+        <span class="rider-name-ja">キバ</span>
+        <span class="rider-name-en">Kiva</span>
+        <span class="rider-year">2008</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section">
+    <div>
+      <p class="section-label">About</p>
+      <h2 class="about-heading">平成初期ライダーが、<em>ずっと好き</em>。</h2>
+      <div class="about-body">
+        <p>クウガからキバまで、平成ライダーの記録サイトです。</p>
+        <p>漫画・イラストの制作日記と、ファンとしての感想を置いています。好きを素直に形にする場所にしたい。</p>
+      </div>
+    </div>
+    <div class="site-links">
+      <a class="site-link-row" href="blog.html" style="--c2: var(--agito)">
+        <div class="site-link-left">
+          <span class="site-link-tag">Blog</span>
+          <span class="site-link-name">制作日記</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1.5rem;">
+          <span class="site-link-desc">漫画・勉強の進捗</span>
+          <span class="site-link-arrow">›</span>
+        </div>
+      </a>
+      <a class="site-link-row" href="gallery.html" style="--c2: var(--blade)">
+        <div class="site-link-left">
+          <span class="site-link-tag">Gallery</span>
+          <span class="site-link-name">ギャラリー</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1.5rem;">
+          <span class="site-link-desc">漫画・イラスト</span>
+          <span class="site-link-arrow">›</span>
+        </div>
+      </a>
+      <a class="site-link-row" href="about.html" style="--c2: var(--den-o)">
+        <div class="site-link-left">
+          <span class="site-link-tag">About</span>
+          <span class="site-link-name">サイトについて</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1.5rem;">
+          <span class="site-link-desc">管理人・お問い合わせ</span>
+          <span class="site-link-arrow">›</span>
+        </div>
+      </a>
+      <a class="site-link-row" href="https://azaleacreativeroom888.github.io/" target="_blank" rel="noopener" style="--c2: var(--hibiki)">
+        <div class="site-link-left">
+          <span class="site-link-tag">Top</span>
+          <span class="site-link-name">Azalea Creative Room</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1.5rem;">
+          <span class="site-link-desc">メインサイト</span>
+          <span class="site-link-arrow">›</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="blog-preview">
     <p class="section-label">Latest</p>
-    <div class="news-list">
-      <div class="news-item">
-        <span class="news-date">2025-06-01</span>
-        <p class="news-body">サイトをオープンしました。アギトの魅力を少しずつ更新していきます。</p>
-      </div>
-      <div class="news-item">
-        <span class="news-date">2025-05-28</span>
-        <p class="news-body">ギャラリーページに最初のイラストをアップしました。グランドフォームを描いてみた。</p>
-      </div>
-      <div class="news-item">
-        <span class="news-date">2025-05-20</span>
-        <p class="news-body">ライダーの変身シーンの作画研究をはじめた。フォームチェンジのポーズが難しい。</p>
-      </div>
+    <div class="blog-item">
+      <span class="blog-date">2025-06-15</span>
+      <p class="blog-text">アギトのグランドフォームの模写を10枚やった。肩アーマーの立体感がまだつかめない。</p>
     </div>
-    <a class="gallery-more" href="blog.html">ブログをもっと読む →</a>
+    <div class="blog-item">
+      <span class="blog-date">2025-06-10</span>
+      <p class="blog-text">アクションシーンの構図を勉強中。ライダーキックの踏み切り直前のポーズが一番難しい。</p>
+    </div>
+    <div class="blog-item">
+      <span class="blog-date">2025-06-04</span>
+      <p class="blog-text">背景の描き方を練習。工場地帯のシーンを参考に遠近法を復習した。</p>
+    </div>
+    <a class="more-link" href="blog.html">ブログをもっと見る →</a>
   </section>
 
-  <!-- GALLERY PREVIEW -->
-  <section>
-    <p class="section-label">Gallery</p>
-    <div class="gallery-preview">
-      <a class="gallery-card" href="gallery.html">
-        <span class="card-icon">⬡</span>
-        <span>Manga</span>
-      </a>
-      <a class="gallery-card" href="gallery.html">
-        <span class="card-icon">⬡</span>
-        <span>Illust</span>
-      </a>
-      <a class="gallery-card" href="gallery.html">
-        <span class="card-icon">⬡</span>
-        <span>Sketch</span>
-      </a>
-      <a class="gallery-card" href="gallery.html">
-        <span class="card-icon">⬡</span>
-        <span>More</span>
-      </a>
-    </div>
-    <a class="gallery-more" href="gallery.html">ギャラリーを見る →</a>
-  </section>
-
-  <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">AGITO FAN SITE</div>
+    <div class="footer-logo">HEISEI RIDER FAN</div>
     <p>非公式ファンサイト / Unofficial Fan Site — ©︎ Azalea72</p>
   </footer>
 
