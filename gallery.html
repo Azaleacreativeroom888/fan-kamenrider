@@ -235,6 +235,82 @@
       color: var(--muted); white-space: nowrap;
     }
 
+    /* REPORT LINK BOX */
+    .report-section {
+      padding: 0 clamp(1.5rem, 8vw, 6rem) 4rem;
+    }
+    .report-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .report-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .report-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--faiz);
+      padding: 1.4rem 1.6rem;
+      text-decoration: none;
+      color: var(--white);
+      transition: background 0.2s, padding-left 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .report-link::before {
+      content: 'RANKING';
+      position: absolute;
+      right: 5rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 3.5rem;
+      color: var(--border);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+    .report-link:hover { background: #1a1c30; padding-left: 2rem; }
+    .report-link-left { display: flex; align-items: center; gap: 1.2rem; position: relative; z-index: 1; }
+    .report-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--faiz);
+      color: var(--faiz);
+      white-space: nowrap;
+    }
+    .report-title {
+      font-family: 'Zen Dots', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      color: var(--white);
+    }
+    .report-desc {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+    .report-arrow {
+      font-size: 1.4rem;
+      color: var(--faiz);
+      position: relative; z-index: 1;
+      transition: transform 0.2s;
+    }
+    .report-link:hover .report-arrow { transform: translateX(4px); }
+
     footer {
       border-top: 1px solid var(--border);
       padding: 2.5rem clamp(1.5rem, 8vw, 6rem);
@@ -338,6 +414,21 @@
     <button class="lightbox-close" onclick="closeLightbox()">Close ✕</button>
     <img class="lightbox-img" id="lightbox-img" src="" alt="">
     <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
+
+  <!-- REPORT LINK -->
+  <div class="report-section">
+    <p class="report-label">Special</p>
+    <a class="report-link" href="report1.html">
+      <div class="report-link-left">
+        <span class="report-badge">Report 01</span>
+        <div>
+          <div class="report-title">好きな仮面ライダーランキング</div>
+          <div class="report-desc">クウガからキバまで — 管理人の独断と偏見</div>
+        </div>
+      </div>
+      <span class="report-arrow">›</span>
+    </a>
   </div>
 
   <footer>
